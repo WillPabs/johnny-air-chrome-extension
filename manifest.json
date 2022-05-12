@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Johnny Air Chrome Extension",
+    "version": "1.0",
+    "description": "This extension modifies incorrect pricing calculations.",
+    "action" : {
+        "default_icon" : {},
+        "default_popup" : "popup.html"
+    },
+    "content_scripts" : [
+        {
+            "matches" : ["https://tracker.johnnyairplus.com/admin/invoice_item/*"],
+            "js" : ["jquery.min.js", "./main.js"]
+        }
+    ],
+    "permissions" : [
+        "management"
+    ],
+    "web_accessible_resources" : [{
+        "matches" : ["<all_urls>"],
+        "resources" : []
+    }]
+}
