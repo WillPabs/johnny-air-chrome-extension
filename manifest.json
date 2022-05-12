@@ -10,7 +10,7 @@
     "content_scripts" : [
         {
             "matches" : ["https://tracker.johnnyairplus.com/admin/invoice_item/*"],
-            "js" : ["jquery.min.js", "./main.js"]
+            "js" : ["./jquery.min.js", "./main.js"]
         }
     ],
     "permissions" : [

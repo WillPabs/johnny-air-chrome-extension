@@ -1,3 +1,5 @@
-// Select pickup point 
-let pupPointContainer = $('#pickup_point');
-let pupSelection = pupPointContainer.options[puppoint.selectedIndex].text;
+// Select pickup point text
+pupPointContainer.change(() => {
+    let pupSelection = $('#pickup_point option:selected').text();
+    console.log(pupSelection);
+})
