@@ -4,7 +4,9 @@
     "version": "1.0",
     "description": "This extension modifies incorrect pricing calculations.",
     "action" : {
-        "default_icon" : {},
+        "default_icon" : {
+            "128": "./images/JohnnyAirLogo.png"
+        },
         "default_popup" : "popup.html"
     },
     "content_scripts" : [
@@ -13,6 +15,9 @@
             "js" : ["./jquery.min.js", "./main.js"]
         }
     ],
+    "icons": {
+        "128": "./images/JohnnyAirLogo.png"
+    },
     "permissions" : [
         "management"
     ],
