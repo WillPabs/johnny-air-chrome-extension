@@ -40,7 +40,7 @@ const pickupPoints = [
         'name': 'JAC PICKUP MAKATI',
         'rate': '7'
     }
-]
+];
 
 
 // Select rate value container and assign to a variable
@@ -57,11 +57,10 @@ pupPointContainer.change(() => {
     // handle error when match not found
     matched = pickupPoints.find(match => match.name === pupSelection);
     rateValue = matched.rate;
-    console.log(matched);
-    console.log(rateValue);
+    console.log("Matched pickuppoint " + JSON.stringify(matched));
+    console.log("Rate value " + rateValue);
 });
 
-setInterval(watchRateValue, 100);
 
 // function that checks if the value of rate has been changed and uses checkPickupPointRate function to set the correct rate
 function watchRateValue() {
@@ -71,10 +70,9 @@ function watchRateValue() {
     if (lastVal != currentVal) {
         currentVal = checkPickupPointRate(matched, currentVal);
         document.querySelector('#rate').value = currentVal;
-        // console.log('Value changed from ' + lastVal + ' to ' + currentVal);
         rateVal.data('lastValue', currentVal);
     }
-}
+};
 
 // function to check if current pickup point has correct rate
 // if rate is incorrect, get proper rate from specific pickup point object 
@@ -85,4 +83,31 @@ function checkPickupPointRate(obj, rate) {
         rate = obj.rate;
     }
     return rate;
+};
+
+
+// create checkbox to signify if invoice requires inland calculation
+const chargesContainer = document.querySelectorAll('.card')[5].children[0];
+$('<div id="inlandContainer"><label for="inlandCheckbox">Inland</label><input type="checkbox" id="inlandCheckbox"/></div>').insertAfter(chargesContainer);
+
+$(document).on('click', '#inlandCheckbox', () => {setInlandVal()});
+
+function setInlandVal() {
+    console.log('checkbox clicked');
+    let isChecked = $('#inlandCheckbox').prop('checked');
+    isChecked ? $('#inland').val(calculateInland()) : $('#inland').val('');
 }
+
+function calculateInland() {
+    // get chargeable weight
+    let chargeableWeight = document.querySelector('.card .card-header #ch_weight').value;
+    // check if weight is 15lbs or over
+    if (chargeableWeight >= 15) {
+        // return value of multiply weight times 2.5
+        return chargeableWeight * 2.5;
+    }
+    // return default inland value of $35
+    return 35;
+}
+
+setInterval(watchRateValue, 100);
