@@ -2,49 +2,59 @@
 const pickupPoints = [
     {
         'name': 'MAKATI HEAD OFFICE',
-        'rate': '7'
+        'rate': '7',
+        'value': '1'
     },
     {
         'name': 'JAC SM MEGAMALL',
-        'rate': '7'
+        'rate': '7',
+        'value': '2'
     },
     {
         'name': 'JAC CEBU',
-        'rate': '7.5'
+        'rate': '7.5',
+        'value': '3'
     },
     {
         'name': 'JAC DAVAO',
-        'rate': '7.5'
+        'rate': '7.5',
+        'value': '4'
     },
     {
         'name': 'JAC ILOILO',
-        'rate': '7.5'
+        'rate': '7.5',
+        'value': '5'
     },
     {
         'name': 'JAC CAGAYAN DE ORO',
-        'rate': '7.5'
+        'rate': '7.5',
+        'value': '6'
     },
     {
         'name': 'JAC DELIVERY',
-        'rate': '7'
+        'rate': '7',
+        'value': '7'
     },
     {
         'name': 'JAC BACOLOD',
-        'rate': '7.5'
+        'rate': '7.5',
+        'value': '8'
     },
     {
         'name': 'JAC DIAN',
-        'rate': '7.5'
+        'rate': '7.5',
+        'value': '43'
     },
     {
         'name': 'JAC PICKUP MAKATI',
-        'rate': '7'
+        'rate': '7',
+        'value': '38'
     }
 ];
 
 
 // Select rate value container and assign to a variable
-let rateValue = $('#rate').value;
+let rateValue = $('#rate').val();
 
 // When option selected's value changes assign it to pupselection. Then check to see if pupselection matches 
 // any name keys from pickupPoints, and assign it to matched.
@@ -52,25 +62,24 @@ let rateValue = $('#rate').value;
 let pupPointContainer = $('#pickup_point');
 let matched = '';
 pupPointContainer.change(() => {
-    let pupSelection = $('#pickup_point option:selected').text();
-    // TODO
-    // handle error when match not found
-    matched = pickupPoints.find(match => match.name === pupSelection);
+    let pupSelection = $('#pickup_point option:selected').val();
+    console.log("Selected " + pupSelection);
+    matched = pickupPoints.find(match => match.value === pupSelection);
     rateValue = matched.rate;
     console.log("Matched pickuppoint " + JSON.stringify(matched));
     console.log("Rate value " + rateValue);
 });
 
-
 // function that checks if the value of rate has been changed and uses checkPickupPointRate function to set the correct rate
 function watchRateValue() {
     let rateVal = $('#rate');
-    let lastVal = rateVal.data('lastValue');
     let currentVal = rateVal.val();
-    if (lastVal != currentVal) {
+    if (matched.rate != currentVal) {
+        console.log("Matched val " + matched.rate);
+        console.log("Current val " + currentVal);
+        console.log("Matched " + JSON.stringify(matched));
         currentVal = checkPickupPointRate(matched, currentVal);
         document.querySelector('#rate').value = currentVal;
-        rateVal.data('lastValue', currentVal);
     }
 };
 
@@ -78,7 +87,7 @@ function watchRateValue() {
 // if rate is incorrect, get proper rate from specific pickup point object 
 // return rate
 function checkPickupPointRate(obj, rate) {
-    if (obj.rate !== rate) {
+    if (obj !== undefined && obj.rate !== rate) {
         console.log(rate + ' changed to proper rate ' + obj.rate);
         rate = obj.rate;
     }
@@ -90,13 +99,21 @@ function checkPickupPointRate(obj, rate) {
 const chargesContainer = document.querySelectorAll('.card')[5].children[0];
 $('<div id="inlandContainer"><label for="inlandCheckbox">Inland</label><input type="checkbox" id="inlandCheckbox"/></div>').insertAfter(chargesContainer);
 
-$(document).on('click', '#inlandCheckbox', () => {setInlandVal()});
+
+// TO DO 
+// when inland checkbox is checked, monitor any changes in chargeable weight to reflect the correct inland price 
+$(document).on('click', '#inlandCheckbox', setInlandVal);
 
 function setInlandVal() {
     console.log('checkbox clicked');
     let isChecked = $('#inlandCheckbox').prop('checked');
-    isChecked ? $('#inland').val(calculateInland()) : $('#inland').val('');
+    isChecked ? $('#inland').val(calculateInland(), 1000) : $('#inland').val('');
 }
+
+$('.card .card-header #ch_weight').on('change', () => {
+    calculateInland();
+    console.log("Changing weight value");
+});
 
 function calculateInland() {
     // get chargeable weight
@@ -110,4 +127,4 @@ function calculateInland() {
     return 35;
 }
 
-setInterval(watchRateValue, 100);
+setInterval(watchRateValue, 500);
