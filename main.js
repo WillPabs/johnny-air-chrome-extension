@@ -55,20 +55,15 @@ const pickupPoints = [
 
 // Select rate value container and assign to a variable
 let rateValue = $('#rate').val();
-
-// When option selected's value changes assign it to pupselection. Then check to see if pupselection matches 
-// any name keys from pickupPoints, and assign it to matched.
-// Assign matched object's rate value to rate
 let pupPointContainer = $('#pickup_point');
 let matched = '';
-pupPointContainer.change(() => {
+
+// function checks the pickuppoint value, matches it to an object in the pickuppoint array, and assigns the value to rateValue
+function watchPickupPointValue() {
     let pupSelection = $('#pickup_point option:selected').val();
-    console.log("Selected " + pupSelection);
     matched = pickupPoints.find(match => match.value === pupSelection);
     rateValue = matched.rate;
-    console.log("Matched pickuppoint " + JSON.stringify(matched));
-    console.log("Rate value " + rateValue);
-});
+}
 
 // function that checks if the value of rate has been changed and uses checkPickupPointRate function to set the correct rate
 function watchRateValue() {
@@ -128,3 +123,4 @@ function calculateInland() {
 }
 
 setInterval(watchRateValue, 500);
+setInterval(watchPickupPointValue, 500);
