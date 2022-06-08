@@ -1,4 +1,4 @@
-# johnny-air-corporate-chrome-extension
+# johnny-air-cargo-corporate-chrome-extension
 
 ### HOW TO INSTALL
 ------------------
